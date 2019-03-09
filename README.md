@@ -4,7 +4,7 @@ Homework 1 for SJTU se418
 Java se 11
 ## IDE
 visual studio
-## Framework
+## Frame
 Maven. 
 ```
 mvn archetype:generate -DarchetypeArtifactId="archetype-quickstart-jdk8" -DarchetypeGroupId="com.github.ngeor"
