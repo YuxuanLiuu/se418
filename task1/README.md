@@ -7,13 +7,14 @@
 ### 加载时间
 
 在寝室网条件下，DOMContentLoad平均时间为800ms，完全加载（包括css，js，图片等静态文件）平均需要3.5s。列出了部分影响时间的图片文件（下载时间指不考虑阻塞时间，仅下载文件所用时间）：
+
 | 文件           | 下载时间（ms）  |
 | ------------- |:-------------:|  
 | qsxLibrary.png    | 258      |  
 |   oldbuilding.png    |    252 |
 | column-1.jpg (石狮子图片) | 266   |
 
-建议压缩这些图片清晰度提高网站速度。
+建议压缩这些图片清晰度或者加入缓存提高网站速度。
 
 ### html页面
 
@@ -23,25 +24,19 @@
 <img src="https://www.sjtu.edu.cn/resource/assets/img/LogoWhite.png">
 ```
 
-### 仍在使用HTTP/1.1
+### 仍使用HTTP/1.1
 根据[google best practice](https://developers.google.com/web/tools/lighthouse/audits/http2)
 HTTP/2可以更快，更省数据量地访问资源。
 
-交大官网大部分资源仍使用http/1.1协议
+交大官网大部分资源仍大量使用http/1.1协议，
 以下是部分例子
 ```
 https://www.sjtu.edu.cn
-
 …ETUI/ETUI3.min.css(www.sjtu.edu.cn)
-
 …ETUI/ETUI3.Utility.css(www.sjtu.edu.cn)
-
 …OwlCarousel/owl.carousel.css(www.sjtu.edu.cn)
-
 …OwlCarousel/owl.theme.default.css(www.sjtu.edu.cn)
-
 …css/keyframes.css(www.sjtu.edu.cn)
-
 ...
 ```
 
@@ -55,57 +50,44 @@ https://www.sjtu.edu.cn
 
 meta description可以有益于搜索引擎更精确找到页面。
 
-### 应用数据储存
+### 内存泄漏
+怀疑有内存泄漏，关闭页面操作才让heap曲线（紫色）降下来。
 
-Explain how to run the automated tests for this system
+![](jiaoda.png)
 
-### Break down into end to end tests
+## 对比研究
 
-Explain what these tests test and why
+以下与复旦官网进行对比
 
+### 加载时间
+在寝室网条件下，DOMContentLoad平均时间为500ms，完全加载（包括css，js，图片等静态文件）平均需要2.0s。
+
+原因是多次刷新后，网站将所有的图片信息进行了缓存。
+
+### html页面
+部分图片也未使用alt属性（比交大还多）。
+
+### 未使用HTTPS
+47个资源请求未使用HTTPS协议，有安全隐患。
 ```
-Give an example
+/mindex.html(www.fudan.edu.cn)
+…css/bootstrap.min.css(www.fudan.edu.cn)
+/fudanIndex/style.css(www.fudan.edu.cn)
+…line-icons/line-icons.css(www.fudan.edu.cn)
+…css/font-awesome.min.css(www.fudan.edu.cn)
+/fudanIndex/header.css(www.fudan.edu.cn)
+...
 ```
 
-### And coding style tests
+### 仍使用HTTP/1.1
+也仍在大量使用HTTP/1.1.
 
-Explain what these tests test and why
+### 内存泄漏
 
-```
-Give an example
-```
+无内存泄漏
 
-## Deployment
+![](fudan.png)
 
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
-
+## 总结
+交大图片在反复刷新后仍要200ms时间下载。复旦的所有图片都进缓存，因此多次刷新后，重复请求会快些。
+两者都仍在使用HTTP/1.1协议。交大使用的document.write()插入脚本降低了性能，而且怀疑有内存泄漏。复旦有47个资源请求未使用HTTPS，有安全隐患。
