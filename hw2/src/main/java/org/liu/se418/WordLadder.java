@@ -1,5 +1,7 @@
 package org.liu.se418;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -15,11 +17,13 @@ import java.util.ArrayList;
  * Hello world!
  *
  */
+
+@JsonIgnoreProperties
 public class WordLadder {
     private Set<String> dictionary = new HashSet<String>();
     private Set<String> seenWords = new HashSet<String>();
-    private String message;
-    private List<String> wordLadder = new ArrayList<String>();
+    public String message;
+    public List<String> wordLadder;
 
     private void getDictionary(String fileName) throws IOException {
         File inFile;
@@ -39,6 +43,15 @@ public class WordLadder {
     public List<String> getWordLadder(){
         return wordLadder;
     }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setWordLadder(List<String> wordLadder) {
+        this.wordLadder = wordLadder;
+    }
+
 
     public WordLadder(String fileName) throws IOException {
         // d.forEach(word -> word.toLowerCase());
@@ -84,6 +97,7 @@ public class WordLadder {
             return;
         }
 
+        wordLadder = new ArrayList<String>();
         wordLadder.add(word1);
         // same words
         if (word1.equals(word2)) {
@@ -103,7 +117,7 @@ public class WordLadder {
             for (String wordCandidate : wordCandidates) {
                 if (wordCandidate.equals(word2)) {
                     currentWordLadder.add(wordCandidate);
-                    message = "succeed!";
+                    message = "Succeed!";
                     wordLadder = currentWordLadder;
                     return;
                 }
