@@ -1,4 +1,4 @@
-package org.liu.se418;
+package org.liu.se418.wordLadder;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

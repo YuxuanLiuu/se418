@@ -3,6 +3,7 @@ package org.liu.se418;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.liu.se418.wordLadder.WordLadder;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
