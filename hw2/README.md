@@ -2,27 +2,39 @@
 
 ## User Guide
 
+0. Change file in the /src/main/resources/application.properties to match your database.
 1. Install dependencies and build: ```mvn intall```
 2. Test: ```mvn test```
 3. Run: ```mvn spring-boot:run```
 4. Usage: Use **Postman** to send GET or POST request. 
-If succeeding, you will get the word ladder and successful message. Otherwise, you will get an empty word ladder and corresponding error message.
-Details are as follows:
-* GET
 
-![](./images_for_readme/succeedGET.png)
-![](./images_for_readme/notInDictGET.png)
-![](./images_for_readme/differentLengthGET.png)
+* Register
+![](./images_for_readme/signup.png)
 
-* POST
+* Sign in
+![](./images_for_readme/signin.png)
+Copy json web token (jwt) and paste it into the header, and you will be authorized. 
 
-![](./images_for_readme/succeedPOST.png)
-![](./images_for_readme/notInDictPOST.png)
-![](./images_for_readme/differentLengthPOST.png)
+* Get wordLadder with jwt
+![](./images_for_readme/getWithToken.png)
+
+* Get wordLadder without token
+![](./images_for_readme/getWithoutToken.png)
+
+* Get actuator endpoint with token
+![](./images_for_readme/getActuatorWithToken.png)
+
+* Get actuator endpoint with out tokens
+![](./images_for_readme/getActuatorWithoutToken.png)
+
 
 ## JUnit test
-
-* Test both WordLadder.class and WordLadderController.class
+* Test jwtProvider.java, which is a util class to generate and validate jwt.(/src/test/java/org/liu/se418/Jwt/JwtProviderTest)
+* Test WordLadder.java to make sure it works. (/src/test/java/org/liu/se418/wordLadder/WordLadderTest)
+* Test WordLadderController.java. I register and login a admin user to get the jwt. User with role "user" or "admin" can have access to the word ladder.
+(/src/test/java/org/liu/se418/wordLadder/WordLadderControllerTest)
+* Test Actuator.
 * Use java reflect method to access private method.
 * Use surefire plugin to generate test report, which can be found  in /target/site/surefire-report.html
-* Use jacoco to analyse the test code coverage. The coverage report can be found in /target/jacoco.exec
+
+

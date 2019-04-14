@@ -1,4 +1,4 @@
-package org.liu.se418;
+package org.liu.se418.wordLadder;
 
 import org.junit.Assert;
 import org.junit.Before;
