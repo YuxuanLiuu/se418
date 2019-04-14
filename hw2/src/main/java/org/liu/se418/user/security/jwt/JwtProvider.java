@@ -1,12 +1,13 @@
 package org.liu.se418.user.security.jwt;
 
 import io.jsonwebtoken.*;
-
+import io.jsonwebtoken.impl.DefaultClock;
 import org.liu.se418.user.security.services.UserPrinciple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -14,22 +15,25 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
+    private Clock clock = DefaultClock.INSTANCE;
+
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
-    @Value("${grokonez.app.jwtSecret}")
+    @Value("${app.jwtSecret}")
     private String jwtSecret;
 
-    @Value("${grokonez.app.jwtExpiration}")
+    @Value("${app.jwtExpiration}")
     private int jwtExpiration;
 
-    public String generateJwtToken(Authentication authentication) {
+    public String generateJwtToken(UserDetails userPrincipal) {
 
-        UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
-
+        //UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
+        Date createdDate = clock.now();
+        Date expirationDate = new Date(createdDate.getTime() + jwtExpiration);
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpiration))
+                .setIssuedAt(createdDate)
+                .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }

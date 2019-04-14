@@ -12,6 +12,11 @@ public class LogInForm {
     @Size(min = 6, max = 40)
     private String password;
 
+    public LogInForm(@NotBlank @Size(min = 3, max = 60) String username, @NotBlank @Size(min = 6, max = 40) String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public String getUsername() {
         return username;
     }

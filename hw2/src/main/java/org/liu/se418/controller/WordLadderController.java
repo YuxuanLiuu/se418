@@ -1,6 +1,9 @@
 package org.liu.se418.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.liu.se418.wordLadder.WordLadder;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,5 +21,16 @@ public class WordLadderController {
         wordLadder.findWordLadder(word1, word2);
         return wordLadder;
     }
+
+//    @RequestMapping(value = "/api/wordLadder", method = RequestMethod.POST)
+//    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+//    public WordLadder getWordLadder(@RequestBody JSONObject words) throws IOException, JSONException {
+//        ClassPathResource dictionary = new ClassPathResource("SmallDict.txt");
+//        WordLadder wordLadder = new WordLadder(dictionary.getFile().getAbsolutePath());
+//        String word1 = words.get("source").toString();
+//        String word2 = words.get("destination").toString();
+//        wordLadder.findWordLadder(word1, word2);
+//        return wordLadder;
+//    }
 
 }

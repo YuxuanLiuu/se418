@@ -49,11 +49,28 @@ public class User {
 
     public User() {}
 
-    public User(String name, String username, String email, String password) {
+    public User(@NotBlank @Size(min = 2, max = 50) String name, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 6, max = 100) String password) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public User(@NotBlank @Size(min = 2, max = 50) String name, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 6, max = 100) String password, Set<Role> roles) {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(final User another) {
+        this.email=another.email;
+        this.id = another.id;
+        this.name = another.name;
+        this.roles = another.roles;
+        this.password=another.password;
+        this.username=another.username;
     }
 
     public Long getId() {

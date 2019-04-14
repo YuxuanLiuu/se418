@@ -1,8 +1,9 @@
 package org.liu.se418.user.message.request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
-
-import javax.validation.constraints.*;
 
 public class SignUpForm {
     @NotBlank
@@ -19,6 +20,14 @@ public class SignUpForm {
     private String email;
 
     private Set<String> role;
+
+    public SignUpForm(@NotBlank @Size(min = 3, max = 50) String name, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(max = 60) @Email String email, Set<String> role, @NotBlank @Size(min = 6, max = 40) String password) {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.role = role;
+        this.password = password;
+    }
 
     @NotBlank
     @Size(min = 6, max = 40)

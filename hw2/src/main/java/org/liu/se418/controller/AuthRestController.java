@@ -2,14 +2,13 @@ package org.liu.se418.controller;
 
 import org.liu.se418.user.message.request.LogInForm;
 import org.liu.se418.user.message.request.SignUpForm;
+import org.liu.se418.user.message.response.JwtResponse;
 import org.liu.se418.user.model.Role;
 import org.liu.se418.user.model.RoleName;
 import org.liu.se418.user.model.User;
 import org.liu.se418.user.repository.RoleRepository;
 import org.liu.se418.user.repository.UserRepository;
 import org.liu.se418.user.security.jwt.JwtProvider;
-import org.liu.se418.user.message.response.JwtResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +16,20 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
-public class AuthRestAPIs {
+public class AuthRestController {
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -56,7 +58,7 @@ public class AuthRestAPIs {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String jwt = jwtProvider.generateJwtToken(authentication);
+        String jwt = jwtProvider.generateJwtToken((UserDetails) authentication.getPrincipal());
         return ResponseEntity.ok(new JwtResponse(jwt));
     }
 
