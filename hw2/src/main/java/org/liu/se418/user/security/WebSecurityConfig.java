@@ -1,6 +1,6 @@
 package org.liu.se418.user.security;
 
-
+import org.liu.se418.wordLadder.WordLadder;
 import org.liu.se418.user.security.jwt.JwtAuthEntryPoint;
 import org.liu.se418.user.security.jwt.JwtAuthTokenFilter;
 import org.liu.se418.user.security.services.UserDetailsServiceImpl;
@@ -18,7 +18,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import org.springframework.core.io.ClassPathResource;
+import java.io.IOException;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -30,6 +31,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtAuthEntryPoint unauthorizedHandler;
+
+    @Bean
+    public WordLadder getWordLadder() throws IOException {
+        ClassPathResource dictionary = new ClassPathResource("SmallDict.txt");
+        WordLadder wordLadder = new WordLadder(dictionary.getFile().getAbsolutePath());
+        return wordLadder;
+    }
 
     @Bean
     public JwtAuthTokenFilter authenticationJwtTokenFilter() {
@@ -59,6 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
+		.antMatchers("/api/wordLadder/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
