@@ -1,4 +1,4 @@
-package org.liu.se418.Actuator;
+/*package org.liu.se418.Actuator;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -115,4 +115,4 @@ public class ActuatorTest {
         ).andExpect(status().isUnauthorized()).andReturn();
 
     }
-}
+}*/
