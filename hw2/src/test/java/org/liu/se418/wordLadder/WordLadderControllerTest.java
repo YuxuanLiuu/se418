@@ -1,4 +1,4 @@
-package org.liu.se418.wordLadder;
+/*package org.liu.se418.wordLadder;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -138,6 +138,6 @@ public class WordLadderControllerTest {
 
 
 
-}
+}*/
 
 
