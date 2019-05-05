@@ -1,0 +1,31 @@
+version: '2'
+services:
+  authserver:
+    image: 1197744123/wordladder-oauth2-server:latest
+    restart: always
+    container_name: authserver
+    ports:
+      - "8081:8081"
+    environment:
+      DOMAIN_NAME: 192.168.1.110
+    networks:
+      - se418-hw3
+
+
+  authconsumer:
+    image: 1197744123/wordladder-oauth2-consumer:latest
+    container_name: authconsumer
+    domainname: 192.168.1.110
+    ports:
+      - "8082:8082"
+    environment:
+      DOMAIN_NAME: 192.168.1.110
+    networks:
+      - se418-hw3
+    depends_on:
+      - authserver
+
+networks:
+  se418-hw3:
+    external:
+      name: se418-hw3

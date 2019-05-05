@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.io.*;
 
 
 @JsonIgnoreProperties
@@ -26,6 +27,17 @@ public class WordLadder {
         }
         bufferedReader.close();
     }
+
+    private void getDictionary(InputStream inputStream) throws IOException {
+        InputStreamReader reader = new InputStreamReader(inputStream);
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        String word;
+        while ((word = bufferedReader.readLine()) != null) {
+            dictionary.add(word);
+        }
+        bufferedReader.close();
+    }
+
 
     public String getMessage(){
         return message;
@@ -47,6 +59,11 @@ public class WordLadder {
     public WordLadder(String fileName) throws IOException {
         // d.forEach(word -> word.toLowerCase());
         getDictionary(fileName);
+    }
+
+    public WordLadder(InputStream inputStream) throws IOException {
+        // d.forEach(word -> word.toLowerCase());
+        getDictionary(inputStream);
     }
 
     private List<String> oneLetterDifferFrom(String word) {

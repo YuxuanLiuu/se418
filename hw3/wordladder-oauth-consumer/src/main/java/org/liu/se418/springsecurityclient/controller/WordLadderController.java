@@ -15,7 +15,7 @@ public class WordLadderController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public WordLadder getWordLadder(@RequestParam("source") String word1, @RequestParam("destination") String word2) throws IOException {
         ClassPathResource dictionary = new ClassPathResource("SmallDict.txt");
-        WordLadder wordLadder = new WordLadder(dictionary.getFile().getAbsolutePath());
+        WordLadder wordLadder = new WordLadder(dictionary.getInputStream());
         wordLadder.findWordLadder(word1, word2);
         return wordLadder;
     }
